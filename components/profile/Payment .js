@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
+import Image from 'next/image';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -59,7 +60,7 @@ const Payment = ({ orders, onClose, onPaymentSuccess }) => {
           <div className="payment-category">
             <label htmlFor="tienmat" className={`payment-label tienmatMethod ${selectedPayment === 'tienmat' ? 'selected' : ''}`}>
               <div className="imgContainer tienmat">
-                <img src="https://cdn-icons-png.freepik.com/512/5132/5132194.png" alt="cash" />
+                <Image src="https://cdn-icons-png.freepik.com/512/5132/5132194.png" alt="cash" width={50} height={50} />
               </div>
               <div className="imgName">
                 <span>Tiền mặt</span>
@@ -68,7 +69,7 @@ const Payment = ({ orders, onClose, onPaymentSuccess }) => {
             </label>
             <label htmlFor="momo" className={`payment-label momoMethod ${selectedPayment === 'momo' ? 'selected' : ''}`}>
               <div className="imgContainer momo">
-                <img src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-MoMo-Circle.png" alt="momo" />
+                <Image src="https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-MoMo-Circle.png" alt="momo" width={50} height={50} />
               </div>
               <div className="imgName">
                 <span>Momo</span>
@@ -77,7 +78,7 @@ const Payment = ({ orders, onClose, onPaymentSuccess }) => {
             </label>
             <label htmlFor="QR" className={`payment-label QRMethod ${selectedPayment === 'QR' ? 'selected' : ''}`}>
               <div className="imgContainer QR">
-                <img src="https://t3.ftcdn.net/jpg/02/23/88/58/360_F_223885881_Zotk7yyvWJDvq6iWq2A9XU60iVJEnrzC.jpg" alt="QR" />
+                <Image src="https://t3.ftcdn.net/jpg/02/23/88/58/360_F_223885881_Zotk7yyvWJDvq6iWq2A9XU60iVJEnrzC.jpg" alt="QR" width={50} height={50} />
               </div>
               <div className="imgName">
                 <span>QR</span>
@@ -86,7 +87,7 @@ const Payment = ({ orders, onClose, onPaymentSuccess }) => {
             </label>
             <label htmlFor="NFC" className={`payment-label NFCMethod ${selectedPayment === 'NFC' ? 'selected' : ''}`}>
               <div className="imgContainer NFC">
-                <img src="https://t4.ftcdn.net/jpg/02/07/03/21/360_F_207032162_N7N5f1fJiadnStSrW8AyEOyDaesmdJQr.jpg" alt="NFC" />
+                <Image src="https://t4.ftcdn.net/jpg/02/07/03/21/360_F_207032162_N7N5f1fJiadnStSrW8AyEOyDaesmdJQr.jpg" alt="NFC" width={50} height={50} />
               </div>
               <div className="imgName">
                 <span>NFC</span>

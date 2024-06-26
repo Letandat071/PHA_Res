@@ -14,13 +14,11 @@ const Profile = () => {
   const [newOrdersCount, setNewOrdersCount] = useState(0);
   const { push } = useRouter();
   const [foodCount, setFoodCount] = useState(0);
-
-
   const [newpaysCount, setNewpaysCount] = useState(0);
-
 
   const prevFoodCountRef = useRef(0);
   const prevPayCountRef = useRef(0);
+
   const closeAdminAccount = async () => {
     try {
       if (confirm("Bạn có muốn đăng xuất khỏi tài khoản Admin")) {
@@ -35,8 +33,7 @@ const Profile = () => {
     }
   };
 
-
-  //Cập nhận Order
+  // Cập nhật Order
   const fetchOrders = useCallback(async () => {
     try {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders`);
@@ -59,44 +56,39 @@ const Profile = () => {
     return () => clearInterval(interval);
   }, [fetchOrders]);
 
-//Cập nhật Thanh Toán
-const fetchPays = useCallback(async () => {
-  try {
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders`);
-    const orders = res.data;
-    const newpaysCount = orders.filter(order =>  order.paymentstatus === "Đang chờ xác nhận");
-    setNewpaysCount(newpaysCount.length);
-    if (newpaysCount.length > setNewpaysCount) {
+  // Cập nhật Thanh Toán
+  const fetchPays = useCallback(async () => {
+    try {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/orders`);
+      const orders = res.data;
+      const newpaysCount = orders.filter(order => order.paymentstatus === "Đang chờ xác nhận");
+      setNewpaysCount(newpaysCount.length);
+      if (newpaysCount.length > setNewpaysCount) {
+        // Play notification sound
+        const audio = new Audio("/sounds/payment.mp3");
+        audio.play();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchPays();
+    const interval = setInterval(fetchPays, 10000); // Fetch products every 10 seconds
+    return () => clearInterval(interval);
+  }, [fetchPays]);
+
+  useEffect(() => {
+    if (newpaysCount > prevPayCountRef.current) {
       // Play notification sound
       const audio = new Audio("/sounds/payment.mp3");
       audio.play();
     }
-  } catch (error) {
-    console.log(error);
-  }
-}, [setNewpaysCount]);
+    prevPayCountRef.current = newpaysCount;
+  }, [newpaysCount]);
 
-useEffect(() => {
-  fetchPays();
-  const interval = setInterval(fetchPays, 10000); // Fetch products every 10 seconds
-  return () => clearInterval(interval);
-}, []);
-
-useEffect(() => {
-  if (newpaysCount > prevPayCountRef.current) {
-    // Play notification sound
-    const audio = new Audio("/sounds/payment.mp3");
-    audio.play();
-  }
-  prevPayCountRef.current = newpaysCount;
-}, [newpaysCount]);
-
-
-
-
-  //Cập nhật Đồ ăn
-
-
+  // Cập nhật Đồ ăn
   const fetchFood = async () => {
     try {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/products`);
@@ -123,10 +115,6 @@ useEffect(() => {
     prevFoodCountRef.current = foodCount;
   }, [foodCount]);
 
-
-
-
-
   return (
     <div className="flex px-10 min-h-[calc(100vh_-_433px)] lg:flex-row flex-col lg:mb-0 mb-10">
       <div className="lg:w-80 w-100 flex-shrink-0 lg:h-[100vh] justify-center flex flex-col border-l-2 border-r-4 shadow-2xl">
@@ -147,7 +135,7 @@ useEffect(() => {
             onClick={() => setTabs(0)}
           >
             <i className="fas fa-utensils"></i>
-            <button className="ml-1 relative" >Quản Lý Món Ăn
+            <button className="ml-1 relative">Quản Lý Món Ăn
               {foodCount > 0 && (
                 <span className="absolute top-0 right-40 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                   {foodCount}
