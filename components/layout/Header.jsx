@@ -30,7 +30,7 @@ const Header = () => {
           <ul className="flex gap-x-2 sm:flex-row flex-col items-center">
             <li
               className={`px-[5px] py-[10px] uppercase hover:text-primary cursor-pointer ${
-                router.asPath === "/" && "text-primary"
+                router.asPath === "/home" && "text-primary"
               }}`}
               onClick={() => setIsMenuModal(false)}
             >
